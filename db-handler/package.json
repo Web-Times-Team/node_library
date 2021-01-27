@@ -1,5 +1,8 @@
 {
     "name": "@web-times-team/db-handler",
+    "peerDependencies": {
+        "mysql": "^2.18.1"
+    },
     "version": "1.0.0",
     "description": "",
     "main": "index.js",
@@ -10,6 +13,6 @@
         "type": "git",
         "url": "https://github.com/Web-Times-Team/node_library.git"
     },
-    "author": "",
+    "author": "Faïzou Aremou",
     "license": "ISC"
 }
