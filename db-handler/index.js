@@ -10,15 +10,16 @@ const TypeOfDb = Object.freeze({
     mongodb: 1
 })
 
-let connection;
-let dbType;
 exports.TypeOfDb = TypeOfDb;
 
+let connection;
+let dbType;
 /**
  * db creation
  * @param {*} dbType 
  */
 exports.dbCreation = (dbTypeValue, dbConfig) => {
+
     dbType = dbTypeValue;
     if (!dbTypeValue) {
         connection = require('./db-mysql-creation')(dbConfig);
@@ -44,6 +45,9 @@ class Dbinterface {
     getDataFromTableWhere(tableName, data) {
         throw new Error('you have to implement the method doSomething')
     };
+    getDataFromNatJTable(tableName1, tableName2, tableName3, tableName4) {
+        throw new Error('you have to implement the method doSomething')
+    }
     deleteData(tableName, data) {
         throw new Error('you have to implement the method doSomething')
     };
@@ -53,6 +57,7 @@ class MongoInterface extends Dbinterface {
     insertInTable(tableName, data) {};
     getAllDataFromTable(tableName) {};
     getDataFromTableWhere(tableName, data) {};
+    getDataFromNatJTable(tableName1, tableName2, tableName3, tableName4) {}
     deleteData(tableName, data) {};
 }
 class MysqlInterface extends Dbinterface {
@@ -94,6 +99,16 @@ class MysqlInterface extends Dbinterface {
             })
         });
     };
+    // NatJ: natural join
+    getDataFromNatJTable(tableName1, tableName2, tableName3, tableName4) {
+        let sql = `select * from ${tableName1} natural join ${tableName2} natural join ${tableName3} natural join ${tableName4} `;
+        return new Promise((resolve, reject) => {
+            connection.query(sql, (err, res) => {
+                if (err) reject(err);
+                resolve(res);
+            })
+        });
+    }
 
     deleteData(tableName, data) {
         return new Promise((resolve, reject) => {
